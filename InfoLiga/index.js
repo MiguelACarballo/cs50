@@ -9,9 +9,7 @@ const port = process.env.PORT || 3000;
 const router = express.Router();
 
 app.use(bodyParser.json());
-
 app.use(bodyParser.urlencoded({ extended: true }));
-// start the server
 
 app.post('/', (req, res) => {
   let gameDay = req.body.text;
@@ -84,6 +82,7 @@ function getGameDayMatches(gameDay) {
   }
 }
 
+// start the server
 app.listen(port, (req, res) => {
   console.info('Started Express server on port ' + port)
 });
