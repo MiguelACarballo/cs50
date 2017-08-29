@@ -6,6 +6,6 @@ Ein Slack Bot mit welchem man die Spiele für einen jeweiligen Spieltag ausgegeb
 /infoliga [1-34(optional)]
 
 ### Screenshots
-![Screenshot1](https://github.com/MiguelACarballo/cs50/tree/feature/finalProject/InfoLiga/images/infoliga_screen_1.png)
-![Screenshot2](https://github.com/MiguelACarballo/cs50/tree/feature/finalProject/InfoLiga/images/infoliga_screen_2.png)
+![Screenshot1](https://raw.githubusercontent.com/MiguelACarballo/cs50/feature/finalProject/InfoLiga/images/infoliga_screen_1.png)
+![Screenshot2](https://raw.githubusercontent.com/MiguelACarballo/cs50/feature/finalProject/InfoLiga/images/infoliga_screen_2.png)
 
