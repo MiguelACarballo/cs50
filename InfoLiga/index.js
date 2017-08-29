@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const dateformat = require('dateformat');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 const router = express.Router();
 
 app.use(bodyParser.json());
