@@ -13,6 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/', (req, res) => {
   let gameDay = req.body.text;
+  let now = new Date();
+  console.log(dateformat(now, 'dd.mm.yyyy, HH:MM:ss.l') + '  request: ' + gameDay);
   // check if argument is in range
   if(gameDay != '' && gameDay > 0 && gameDay < 35) {
     getGameDayMatches(gameDay).then((response) => {
