@@ -16,13 +16,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 function getGameDay() {
   return new Promise((resolve, reject) => {
     request('https://www.openligadb.de/api/getcurrentgroup/bl1', (error, response, body) => {
-      if (!error) {
-        const foo = JSON.parse(response.body);
-        const gameDay = JSON.stringify(foo.GroupOrderID);
-        resolve(gameDay);
-      } else {
-        reject(error);
+      if (error) {
+        return reject(error);
       }
+      const foo = JSON.parse(response.body);
+      const gameDay = JSON.stringify(foo.GroupOrderID);
+      return resolve(gameDay);
     });
   });
 }
@@ -33,23 +32,21 @@ function getGameDayMatches(gameDay) {
     if (gameDay !== '') {
       const requestText = `https://www.openligadb.de/api/getmatchdata/bl1/2017/${gameDay}`;
       request(requestText, (error, response, body) => {
-        if (!error) {
-          const foo = JSON.parse(response.body);
-          resolve(foo);
-        } else {
-          reject(error);
+        if (error) {
+          return reject(error);
         }
+        const foo = JSON.parse(response.body);
+        return resolve(foo);
       });
     } else {
       getGameDay()
         .then((response) => {
           request(`https://www.openligadb.de/api/getmatchdata/bl1/2017/${response}`, (error, res, body) => {
-            if (!error) {
-              const foo = JSON.parse(res.body);
-              resolve(foo);
-            } else {
-              reject(error);
+            if (error) {
+              return reject(error);
             }
+            const foo = JSON.parse(res.body);
+            return resolve(foo);
           });
         });
     }
