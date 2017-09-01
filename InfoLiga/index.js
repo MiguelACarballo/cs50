@@ -11,41 +11,73 @@ const router = express.Router();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/', (req, res) => {
+app.post('/command', (req, res) => {
   let gameDay = req.body.text;
   let now = new Date();
-  console.log(dateformat(now, 'dd.mm.yyyy, HH:MM:ss.l') + '  request: ' + gameDay);
+  console.log(dateformat(now, 'dd.mm.yyyy, HH:MM:ss.l') + '  Post request: /command  ' + gameDay);
   // check if argument is in range
   if(gameDay != '' && gameDay > 0 && gameDay < 35) {
     getGameDayMatches(gameDay).then((response) => {
-      let matchUps = '*Die Spiele für den ' + response[0].Group.GroupName + ' lauten:*\n';
+      let matchUpsPreText = '*Die Spiele für den ' + response[0].Group.GroupName + ' lauten:*\n';
+      let matchUpsText = '';
       for(let match of response) {
-        // check if game has finished or started
+        // check if game has been finished or started
         if(match.MatchResults[1] != undefined) {
-          matchUps += '_' + match.Team1.TeamName + '_\t*' + match.MatchResults[1].PointsTeam1 +  '* - *' + match.MatchResults[1].PointsTeam2 + '*\t_' + match.Team2.TeamName + '_\n';
-        // if game has not finished or started yet
+          matchUpsText += '_' + match.Team1.TeamName + '_\t*' + match.MatchResults[1].PointsTeam1 +  '* - *' + match.MatchResults[1].PointsTeam2 + '*\t_' + match.Team2.TeamName + '_\n';
+        // if game has not been finished or started yet
         } else {
-          matchUps += '_' + match.Team1.TeamName + '_ - _' + match.Team2.TeamName + '_ am *' + dateformat(match.MatchDateTime, 'dd.mm.yyyy') +
+          matchUpsText += '_' + match.Team1.TeamName + '_ - _' + match.Team2.TeamName + '_ am *' + dateformat(match.MatchDateTime, 'dd.mm.yyyy') +
           '* um *' + dateformat(match.MatchDateTime, 'HH:MM', true) + '* Uhr\n';
         }
       }
-      res.send(matchUps);
+
+      const matchUpsArr = {
+        "attachments": [
+          {
+            "pretext": matchUpsPreText,
+            "text": matchUpsText,
+            "mrkdwn_in": [
+              "pretext",
+              "text"
+            ],
+            "thumb_url": "http://spielverlagerung.de/wp-content/uploads/2016/01/2016-01-21_Bundesliga.png"
+          }
+        ]
+      };
+
+      res.send(matchUpsArr);
     });
   // if argument is empty or not in range or not a number, send the current matchday
   } else {
     getGameDayMatches('').then((response) => {
-      let matchUps = '*Die Spiele für den ' + response[0].Group.GroupName + ' lauten:*\n';
+      let matchUpsPreText = '*Die Spiele für den ' + response[0].Group.GroupName + ' lauten:*\n';
+      let matchUpsText = '';
       for(let match of response) {
-        // check if game has finished or started
+        // check if game has been finished or started
         if(match.MatchResults[1] != undefined) {
-          matchUps += '_' + match.Team1.TeamName + '_\t*' + match.MatchResults[1].PointsTeam1 +  '* - *' + match.MatchResults[1].PointsTeam2 + '*\t_' + match.Team2.TeamName + '_\n';
-        // if game has not finished or started yet
+          matchUpsText += '_' + match.Team1.TeamName + '_\t*' + match.MatchResults[1].PointsTeam1 +  '* - *' + match.MatchResults[1].PointsTeam2 + '*\t_' + match.Team2.TeamName + '_\n';
+        // if game has not been finished or started yet
         } else {
-          matchUps += '_' + match.Team1.TeamName + '_ - _' + match.Team2.TeamName + '_ am *' + dateformat(match.MatchDateTime, 'dd.mm.yyyy') +
+          matchUpsText += '_' + match.Team1.TeamName + '_ - _' + match.Team2.TeamName + '_ am *' + dateformat(match.MatchDateTime, 'dd.mm.yyyy') +
           '* um *' + dateformat(match.MatchDateTime, 'HH:MM', true) + '* Uhr\n';
         }
       }
-      res.send(matchUps);
+
+      const matchUpsArr = {
+        "attachments": [
+          {
+            "pretext": matchUpsPreText,
+            "text": matchUpsText,
+            "mrkdwn_in": [
+              "pretext",
+              "text"
+            ],
+            "thumb_url": "http://spielverlagerung.de/wp-content/uploads/2016/01/2016-01-21_Bundesliga.png"
+          }
+        ]
+      };
+
+      res.send(matchUpsArr);
     });
   }
 });
