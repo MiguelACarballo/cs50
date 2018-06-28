@@ -1,0 +1,22 @@
+{
+  "name": "infoliga",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Miguel Carballo Garcia",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint-config-5minds": "^0.1.0",
+    "minstall": "^1.6.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "dateformat": "^2.0.0",
+    "express": "^4.15.4",
+    "request": "^2.81.0"
+  }
+}
